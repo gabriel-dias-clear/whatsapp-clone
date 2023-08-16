@@ -128,29 +128,39 @@ class WhatsAppController{
             setTimeout(()=>{
                 this.el.panelEditProfile.addClass('open')
             }, 165)
+
         })
 
         this.el.btnNewContact.on('click', e=>{
+
             this.closeAllLeftPanel();
             this.el.panelAddContact.show()
             setTimeout(()=>{
                 this.el.panelAddContact.addClass('open')
             }, 165)
+
         })
 
         this.el.btnClosePanelEditProfile.on('click', e=>{
+
             this.el.panelEditProfile.removeClass('open')
+
         })
 
         this.el.btnClosePanelAddContact.on('click', e=>{
+
             this.el.panelAddContact.removeClass('open')
+
         })
 
         this.el.inputNamePanelEditProfile.on('keypress', e=>{
 
             if(e.key === 'Enter'){
+
                 e.preventDefault();
+
                 this.el.btnSavePanelEditProfile.click();
+
             }
         
         })
@@ -192,7 +202,9 @@ class WhatsAppController{
         })
 
         this.el.btnAttachPhoto.on('click', e=>{
+
             this.el.inputPhoto.click();
+
         })
 
         this.el.inputPhoto.on('change', e=>{
@@ -214,11 +226,14 @@ class WhatsAppController{
             this.el.panelCamera.css({
                 'height':'calc(100% - 120px)'
             })
+
         })
 
         this.el.btnClosePanelCamera.on('click', e=>{
+
             this.closeAllMainPanel();
             this.el.panelMessagesContainer.show()
+        
         })
 
         this.el.btnTakePicture.on('click', e=>{
@@ -228,11 +243,13 @@ class WhatsAppController{
         })
 
         this.el.btnAttachDocument.on('click', e=>{
+
             this.closeAllMainPanel()
             this.el.panelDocumentPreview.addClass('open')
             this.el.panelDocumentPreview.css({
                 'height':'calc(100% - 120px)'
             })
+
         })
 
         this.el.btnClosePanelDocumentPreview.on('click', e=>{
@@ -243,30 +260,56 @@ class WhatsAppController{
         })
 
         this.el.btnSendDocument.on('click', e=>{
+
             console.log('send document')
+
         })
 
         this.el.btnAttachContact.on('click', e=>{
+
             this.el.modalContacts.show()
+
         })
 
         this.el.btnCloseModalContacts.on('click', e=>{
+
             this.el.modalContacts.hide()
+
         })
 
         this.el.btnSendMicrophone.on('click', e=>{
+
             this.el.recordMicrophone.show();
             this.el.btnSendMicrophone.hide()
             this.startRecordMicrophoneTime();
+
         })
 
         this.el.btnCancelMicrophone.on('click', e=>{
+
             this.closeRecordMicrophone();
+
         })
 
         this.el.btnFinishMicrophone.on('click', e=>{
+
             this.closeRecordMicrophone();
+
         })
+
+        this.el.inputText.on('keyup', event => {
+
+            if (this.el.inputText.innerHTML.length) {
+                this.el.inputPlaceholder.hide();
+                this.el.btnSendMicrophone.hide();
+                this.el.btnSend.show();
+            } else {
+                this.el.inputPlaceholder.show();
+                this.el.btnSendMicrophone.show();
+                this.el.btnSend.hide();
+            }
+
+        });
 
 
     }
