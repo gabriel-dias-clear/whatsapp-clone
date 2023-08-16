@@ -297,7 +297,36 @@ export class WhatsAppController{
                     this.el.filePanelDocumentPreview.hide();
 
                 }).catch(err=>{
-                    console.log('erro', err)
+                    
+                    switch(file.type){
+
+                        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                            case 'application/msword':
+                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-doc';
+                                break;
+
+                            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                            case 'application/vnd.ms-excel':
+                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-xls';
+                                break;
+
+                            case 'application/vnd.ms-powerpoint':
+                            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-ppt';
+                                break;
+
+                            default:
+                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-generic';
+
+                    }
+
+                    this.el.filePanelDocumentPreview.show();
+                    
+                    this.el.imagePanelDocumentPreview.hide();
+
+                        this.el.filenamePanelDocumentPreview.innerHTML = file.name;
+
+
                 })
 
             }
