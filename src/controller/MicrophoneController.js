@@ -18,13 +18,7 @@ export class MicrophoneController extends ClassEvent {
 
             this._stream = stream;
 
-            let audio = new Audio();
-
-            audio.srcObject = stream;
-
-            audio.play() 
-
-            this.trigger('play', audio)
+            this.trigger('ready', this._stream)
 
         }).catch(err=>{
             console.log(err)
@@ -50,7 +44,9 @@ export class MicrophoneController extends ClassEvent {
 
         if(this.isAvailable()){
 
-            this._mediaRecorder = new MediaRecorder(this._stream,this._mimeType);
+            this._mediaRecorder = new MediaRecorder(this._stream,{
+                mimetype: this._mimeType
+            });
 
             this._recordedChunks = [];
 
@@ -74,9 +70,22 @@ export class MicrophoneController extends ClassEvent {
                     lastModified: Date.now()
                 });
 
-
+                console.log(file)
 
             })
+
+            this._mediaRecorder.start();
+
+        }
+
+    }
+
+    stopRecorder(){
+
+        if(this.isAvailable()){
+
+            this._mediaRecorder.stop();
+            this.stop();
 
         }
 
