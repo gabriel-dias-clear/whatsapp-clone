@@ -9,8 +9,7 @@ export class CameraController{
             video:true
 
         }).then(stream=>{
-
-           
+            
             this._stream = stream;
             this._videoEl.srcObject = stream
             this._videoEl.play();
