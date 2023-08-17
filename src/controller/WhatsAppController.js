@@ -275,7 +275,7 @@ export class WhatsAppController{
             this.closeAllMainPanel()
             this.el.panelDocumentPreview.addClass('open')
             this.el.panelDocumentPreview.css({
-                'height':'calc(100% - 120px)'
+                'height':'100%'
             })
 
             this.el.inputDocument.click()
