@@ -1,3 +1,5 @@
+import firebase from "firebase";
+
 export class Firebase {
 
     constructor(){
@@ -16,15 +18,16 @@ export class Firebase {
             measurementId: "G-08GWDV6CRM"
           }; 
 
-          if(!window._initialized){
+          if(!this._initialized){
 
             firebase.initializeApp(firebaseConfig)
 
-            window._initialized = true;
-
             firebase.firestore().settings({
                 timestampsInSnapshots: true
+
             })
+
+            this._initialized = true
 
           }
 
@@ -39,6 +42,30 @@ export class Firebase {
     static hd(){
 
         return firebase.storage()
+
+    }
+
+    initAuth(){
+
+        return new Promise((s,f)=>{
+
+            let provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider)
+            .then(result=>{
+
+                let token = result.credential.accessToken;
+
+                let user = result.user;
+
+                s({user, token})
+
+            })
+            .catch(err=>{
+                f(err)
+            })
+
+        })
 
     }
 
