@@ -1,18 +1,27 @@
 import {Format} from './../util/Format'
+
 import {CameraController} from './CameraController'
+
 import {MicrophoneController} from './MicrophoneController'
+
 import {DocumentPreviewController} from './DocumentPreviewController'
+
 import {Firebase} from './../util/Firebase'
-import { User } from '../util/User'
+
+import { User } from '../../models/User'
 
 export class WhatsAppController{
 
     constructor(){
 
         this._firebase = new Firebase();
+
         this.initAuth();
+
         this.elementsPrototype();
+
         this.loadElements(); // método que transformar id do html em camelCase (propriedades de um objeto)
+
         this.initEvents();
         
 
@@ -21,27 +30,55 @@ export class WhatsAppController{
     initAuth(){
 
         this._firebase.initAuth()
-            .then(response=>{
-                
 
-                this._user = User.findByEmail(response.user.email);
-                console.log('achou')
-                this._user.set({
-                    name:response.user.displayName,
-                    email: response.user.email,
-                    photo: response.user.photoURL
-                }).then(()=>{
+            .then(response=>{
+
+                this._user = new User(response.user.email);
+
+                this._user.on('datachange', data=>{
+
+                    document.querySelector('title').innerHTML = data.name + ' - WhatsApp Clone'
+
+                    this.el.inputNamePanelEditProfile.innerHTML = data.name
+
+                    if(data.photo){
+
+                        let photo = this.el.imgPanelEditProfile
+                        photo.src = data.photo
+                        photo.show();
+                        this.el.imgDefaultPanelEditProfile.hide()
+
+                        let photo2 = this.el.myPhoto.querySelector('img')
+                        photo2.src = data.photo;
+                        photo2.show();
+
+                    }
+
+                })
+
+                this._user.name = response.user.displayName
+                this._user.email = response.user.email
+                this._user.photo = response.user.photoURL;
+
+                this._user.save().then(()=>{
 
                     this.el.appContent.css({
+
                         'display':'flex'
+    
                     })
 
-                }) 
+                })
+
+                
 
                 
             })
+
             .catch(err=>{
+
                 console.error(err)
+
             }) 
 
     }
@@ -62,7 +99,9 @@ export class WhatsAppController{
 
         // aplica um display none sob o elemento
         Element.prototype.hide = function(){
+
             this.style.display = 'none';
+
             return this;
         }
     
@@ -70,6 +109,7 @@ export class WhatsAppController{
         Element.prototype.show = function(){
 
             this.style.display = 'block';
+
             return this;
 
         }
@@ -205,7 +245,15 @@ export class WhatsAppController{
 
         this.el.btnSavePanelEditProfile.on('click', e=>{
 
-            console.log(this.el.inputNamePanelEditProfile.innerHTML)
+            this.el.inputNamePanelEditProfile.disabled = true
+
+            this._user.name = this.el.inputNamePanelEditProfile.innerHTML
+
+            this._user.save().then(()=>{
+
+                this.el.inputNamePanelEditProfile.disabled = false
+
+            })
 
         })
 
@@ -220,9 +268,13 @@ export class WhatsAppController{
         this.el.contactsMessagesList.querySelectorAll('.contact-item').forEach(item=>{
 
             item.on('click', e=>{
+
                 this.el.home.hide()
+
                 this.el.main.css({
+
                     display:'flex'
+
                 })
 
             })
@@ -301,7 +353,7 @@ export class WhatsAppController{
         })    
 
         this.el.btnSendPicture.on('click', e=>{
-            console.log(this.el.pictureCamera.src)
+            this.el.pictureCamera.src
         })
 
         this.el.btnAttachDocument.on('click', e=>{

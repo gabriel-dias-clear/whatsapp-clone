@@ -25,7 +25,6 @@ export class Firebase{
         return new Promise((s,f) =>{
             let provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then(result=>{
-                console.log('RESULTTTT:::', result)
                 let token = result.credential.accessToken;
                 let user  = result.user;
                 s({
