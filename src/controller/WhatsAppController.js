@@ -1,14 +1,14 @@
-import {Format} from './../util/Format'
+import {Format} from './../util/Format';
 
-import {CameraController} from './CameraController'
+import {CameraController} from './CameraController';
 
-import {MicrophoneController} from './MicrophoneController'
+import {MicrophoneController} from './MicrophoneController';
 
-import {DocumentPreviewController} from './DocumentPreviewController'
+import {DocumentPreviewController} from './DocumentPreviewController';
 
-import {Firebase} from './../util/Firebase'
+import {Firebase} from './../util/Firebase';
 
-import { User } from '../../models/User'
+import { User } from '../../models/User';
 
 export class WhatsAppController{
 
@@ -57,7 +57,9 @@ export class WhatsAppController{
                 })
 
                 this._user.name = response.user.displayName
+
                 this._user.email = response.user.email
+                
                 this._user.photo = response.user.photoURL;
 
                 this._user.save().then(()=>{
@@ -69,9 +71,6 @@ export class WhatsAppController{
                     })
 
                 })
-
-                
-
                 
             })
 
@@ -138,10 +137,14 @@ export class WhatsAppController{
         //   height:50px
         //              }
         Element.prototype.css = function(styles){
+
             for ( let name in styles){
+
                 this.style[name] = styles[name]
                 return this;
+
             }
+
         }
 
         //aplica classe
@@ -202,9 +205,12 @@ export class WhatsAppController{
         this.el.myPhoto.on('click', e=>{
 
             this.closeAllLeftPanel()
+
             this.el.panelEditProfile.show()
             setTimeout(()=>{
+
                 this.el.panelEditProfile.addClass('open')
+
             }, 165)
 
         })
@@ -262,6 +268,28 @@ export class WhatsAppController{
             e.preventDefault();
 
             let formData = new FormData(this.el.formPanelAddContact);
+
+            let contact = new User(formData.get('email'));
+
+            contact.on('datachange', data=>{
+
+                if(data.name){
+
+                    this._user.addContact(contact).then(()=>{
+
+                        this.el.btnClosePanelAddContact.click();
+                        console.info('contato adicionado')
+                    })
+
+                }else{
+
+                    console.error('Usuário não foie ncontrado')
+
+                }
+
+            })
+
+            this._user.addContact();
 
         })
 
@@ -387,22 +415,22 @@ export class WhatsAppController{
                     switch(file.type){
 
                         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-                            case 'application/msword':
-                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-doc';
-                                break;
+                        case 'application/msword':
+                            this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-doc';
+                        break;
 
-                            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                            case 'application/vnd.ms-excel':
-                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-xls';
-                                break;
+                        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                        case 'application/vnd.ms-excel':
+                            this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-xls';
+                        break;
 
-                            case 'application/vnd.ms-powerpoint':
-                            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-ppt';
-                                break;
+                        case 'application/vnd.ms-powerpoint':
+                        case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+                            this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-ppt';
+                        break;
 
-                            default:
-                                this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-generic';
+                        default:
+                            this.el.iconPanelDocumentPreview.classList.value = 'jcxhw icon-doc-generic';
 
                     }
 
@@ -410,7 +438,7 @@ export class WhatsAppController{
                     
                     this.el.imagePanelDocumentPreview.hide();
 
-                        this.el.filenamePanelDocumentPreview.innerHTML = file.name;
+                    this.el.filenamePanelDocumentPreview.innerHTML = file.name;
 
 
                 })
@@ -494,13 +522,17 @@ export class WhatsAppController{
         this.el.inputText.on('keyup', event => {
 
             if (this.el.inputText.innerHTML.length) {
+
                 this.el.inputPlaceholder.hide();
                 this.el.btnSendMicrophone.hide();
                 this.el.btnSend.show();
+
             } else {
+
                 this.el.inputPlaceholder.show();
                 this.el.btnSendMicrophone.show();
                 this.el.btnSend.hide();
+
             }
 
         });
@@ -515,12 +547,16 @@ export class WhatsAppController{
 
             this.el.panelEmojis.toggleClass('open');
 
-            if (this.el.panelEmojis.hasClass('open')) {
+            if (this.el.panelEmojis.hasClass('open')){
+
                 this.el.iconEmojisOpen.hide();
                 this.el.iconEmojisClose.show();
+
             } else {
+
                 this.el.iconEmojisOpen.show();
                 this.el.iconEmojisClose.hide();
+
             }
 
         });
