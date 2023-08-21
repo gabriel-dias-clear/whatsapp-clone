@@ -208,10 +208,18 @@ export class WhatsAppController{
 
                 let data = doc.data();
                 data.id = doc.id;
+
+                let scrollTop = this.el.panelMessagesContainer.scrollTop
+
+                    let scrollTopMax = (this.el.panelMessagesContainer.scrollHeight - this.el.panelMessagesContainer.offsetHeight)
+                    
+                    let autoScroll = (scrollTop >= scrollTopMax)
              
 
 
                 if(!this.el.panelMessagesContainer.querySelector('#_'+ data.id)){
+
+                    
 
                     let message = new Message();
 
@@ -223,10 +231,15 @@ export class WhatsAppController{
 
                     this.el.panelMessagesContainer.appendChild(view)
 
+                    if(autoScroll){
+
+                        this.el.panelMessagesContainer.scrollTop = (this.el.panelMessagesContainer.scrollHeight - this.el.panelMessagesContainer.offsetHeight)
+
+                    }
+
+
+
                 }
-
-               
-
             })
 
         })
