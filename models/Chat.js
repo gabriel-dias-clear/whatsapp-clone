@@ -15,7 +15,7 @@ export class Chat extends Model{
 
     static getRef(){
 
-        return Firebase.db().collection('/chat')
+        return Firebase.db().collection('/chats')
 
     }
 

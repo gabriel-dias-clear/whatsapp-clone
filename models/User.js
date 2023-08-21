@@ -73,11 +73,6 @@ export class User extends Model{
 
         }
 
-        
-
-        
-
-
     }
 
     getContacts(){
