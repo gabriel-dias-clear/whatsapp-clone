@@ -10,6 +10,8 @@ import {Firebase} from './../util/Firebase';
 
 import { User } from '../../models/User';
 
+import { Chat } from '../../models/Chat'
+
 export class WhatsAppController{
 
     constructor(){
@@ -379,11 +381,23 @@ export class WhatsAppController{
 
                 if(data.name){
 
-                    this._user.addContact(contact).then(()=>{
+                    Chat.createIfNotExists(this._user.email, contact.email).then(chat => {
 
-                        this.el.btnClosePanelAddContact.click();
-                        console.info('contato adicionado')
+                        contact.chatId = chat.id
+
+                        this._user.chatId = chat.id
+
+                        contact.addContact(this._user)
+
+                        this._user.addContact(contact).then(()=>{
+
+                            this.el.btnClosePanelAddContact.click();
+                            console.info('contato adicionado')
+                        })
+
                     })
+
+                   
 
                 }else{
 

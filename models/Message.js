@@ -298,7 +298,7 @@ export class Message extends Model {
 
         }
 
-        let classNAme = (me) ? 'message-out' : 'message-in'
+        let className = (me) ? 'message-out' : 'message-in'
 
         div.firstElementChild.classList.add(className)
 
