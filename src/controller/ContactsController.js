@@ -7,12 +7,15 @@ export class ContactsController extends ClassEvent {
 
         this._user = user;
         this._modalEl = modalEl;
+        this._listEl = document.querySelector('#contact-list')
 
     }
 
     open(){
 
         this._user.getContacts().then(contacts => {
+
+            this._listEl.innerHTML = ''
 
             contacts.forEach(contact=>{
 
@@ -61,9 +64,19 @@ export class ContactsController extends ClassEvent {
 
                 if(contact.photo){
 
-                    let img = div.querySelector('contact-phot')
+                    let img = div.querySelector('.contact-photo')
+
+                    img.src = contact.photo
+                    img.show()
 
                 }
+
+                div.on('click', e=>{
+                    this.trigger('select', contact)
+                    this.close()
+                })
+
+                this._listEl.appendChild(div)
 
             })
 
