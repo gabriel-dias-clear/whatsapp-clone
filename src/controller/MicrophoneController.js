@@ -41,45 +41,64 @@ export class MicrophoneController extends ClassEvent {
     }
 
     startRecorder(){
-
+     
         if(this.isAvailable()){
 
-            this._mediaRecorder = new MediaRecorder(this._stream,{
-                mimetype: this._mimeType
+            this._mediaRecorder = new MediaRecorder(this._stream, {
+                mimeType: this._mimetype
             });
 
             this._recordedChunks = [];
 
             this._mediaRecorder.addEventListener('dataavailable', e=>{
 
-                if(e.data.size > 0){
-                    this._recordedChunks.push(e.data)
-                }
+                if(e.data.size > 0) this._recordedChunks.push(e.data);
 
             })
 
-            this._mediaRecorder.addEventListener('stop', e=>{
+            this._mediaRecorder.addEventListener('stop', e=> {
 
-
-                let blob = new Blob(this._recordedChunks, {type: this._mimeType});
+                let blob = new Blob(this._recordedChunks, {
+                    this: this._mimetype
+                })
 
                 let filename = `rec${Date.now()}.webm`
 
-                let file = new File([blob], filename, {
-                    type: this._mimeType,
-                    lastModified: Date.now()
-                });
+                let audioContext = new AudioContext();
 
-                console.log(file)
+                let reader = new FileReader();
 
+                reader.onload = e =>{
+
+
+                    audioContext.decodeAudioData(reader.result).then(decode =>{
+
+                        let file = new File([blob], filename, {
+                            type: this._mimetype,
+                            lastModified: Date.now()
+                        })                        
+
+                        this.trigger('recorded', file, decode)
+                    })
+
+                    
+
+
+
+                }
+
+                reader.readAsArrayBuffer(blob)
+
+                
+
+                
             })
-
-            this._mediaRecorder.start();
+            this._mediaRecorder.start()
             this.startTimer();
-
         }
 
     }
+
 
     stopRecorder(){
 
