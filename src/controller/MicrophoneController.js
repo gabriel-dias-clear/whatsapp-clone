@@ -1,44 +1,49 @@
-import { ClassEvent } from "../util/ClassEvent";
 
-export class MicrophoneController extends ClassEvent {
+import { ClassEvent } from "../utils/ClassEvent";
+
+export class MicrophoneController extends ClassEvent{
+
+
+    
 
     constructor(){
 
         super();
 
-        this._mimeType = 'audio/webm'
+        this._available = false;
 
-        this._available = false
+        this.FileDone;
+
+        this._mimetype = 'audio/webm'
 
         navigator.mediaDevices.getUserMedia({
-            audio:true
-        }).then(stream => {
+            audio: true
+        }).then(stream=>{
 
             this._available = true;
-
+            
             this._stream = stream;
-
-            this.trigger('ready', this._stream)
-
-        }).catch(err=>{
-            console.log(err)
+                        
+            this.trigger('ready', this._stream);
+            
+        }).catch(err =>{
+            console.error('err', err)
         })
-
     }
+
 
     isAvailable(){
-
-        return this._available
-
+        return this._available;
     }
-
+    
     stop(){
-        
-        this._stream.getTracks().forEach(track=>{
-            track.stop();
+
+        this._stream.getTracks().forEach(track => {
+                track.stop();
         })
 
     }
+
 
     startRecorder(){
      
@@ -99,35 +104,31 @@ export class MicrophoneController extends ClassEvent {
 
     }
 
-
     stopRecorder(){
+
 
         if(this.isAvailable()){
 
             this._mediaRecorder.stop();
-            this.stop();
-            this.stopTimer();
-
+            this.stop()
+            this.stopTimer()
         }
-
+        
     }
 
     startTimer(){
-
         let start = Date.now();
 
         this._recordMicrophoneInterval = setInterval(()=>{
-
-            this.trigger('recordtimer', (Date.now() - start))
-
-        }, 100)   
-        
-    }  
-    
-    stopTimer(){
-
-        clearInterval(this._recordMicrophoneInterval)
-
+            
+            this.trigger('recordtimer', Date.now() - start)
+            
+        }, 100)
     }
 
+    stopTimer(){
+        clearInterval(this._recordMicrophoneInterval);
+    }
+    
 }
+

@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CRoboto:300,400,500" media="all">
-    <script src="dist/pdf.worker.bundle.js" defer></script>
-    <script src="dist/app.bundle.js" defer></script>
+    
 </head>
 
 <body class="web">
@@ -128,7 +127,7 @@
     
     
     
-            <div tabindex="-1" class="app _3dqpi two" id="app-content" style="display:none">
+            <div tabindex="-1" class="app _3dqpi two" id="app-content">
     
                 <div class="MZIyP">
                     <div class="_3q4NP k1feT">
@@ -361,9 +360,9 @@
                                     </div>
                                 </button>
     
-                                <div class="_2cLHw">Procurar ou começar uma nova conversa</div>
+                                <div class="_2cLHw" id="input-search-contacts-placeholder">Procurar ou começar uma nova conversa</div>
                                 <label class="_2MSJr">
-                                    <input type="text" class="jN-F5 copyable-text selectable-text" data-tab="2" dir="auto" title="Procurar ou começar uma nova conversa"
+                                    <input type="text" id='input-search-contacts' class="jN-F5 copyable-text selectable-text" data-tab="2" dir="auto" title="Procurar ou começar uma nova conversa"
                                         value="">
                                 </label>
                             </div>
@@ -697,7 +696,7 @@
                                                                 <div id="image-panel-document-preview" class="r4crx" data-js-attach-preview="true" style="display:none;">
                                                                     <div class="_2-_Pl">
                                                                         <div class="IuYNx _3E6Ha">
-                                                                            <div style="width: 641.263px; height: 516px;">
+                                                                            <div style="width: 100%; height: 100%;">
                                                                                 <img src="#" class="_3m_5X" id="img-panel-document-preview">
                                                                             </div>
                                                                         </div>
@@ -824,6 +823,7 @@
                                         </div>
                                     </div>
                                     <div class="_9tCEa" id="messages">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -1045,6 +1045,13 @@
         </div>
     </div>
     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="img-emoji-default"/>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="dist/pdf.worker.bundle.js"></script>
+    <script src="dist/app.bundle.js"></script>
+    
 </body>
 
 </html>
